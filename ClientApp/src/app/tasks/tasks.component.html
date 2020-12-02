@@ -1,0 +1,31 @@
+<p *ngIf="!(tasks$ | async)"><em>Loading...</em></p>
+<p class="d-flex justify-content-center">
+    <a [routerLink]="['/add']" class="mar btn btn-primary center mb-3">New Task</a>
+</p>
+
+<table class="table table-sm table-hover" *ngIf="(tasks$ | async)?.length>0">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Название</th>
+            <!-- <th>Описание</th> -->
+            <th>Срок</th>
+            <th>Выполнение</th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let task of (tasks$ | async)" [ngClass]="task.completed ? 'gr' : 'wh'">
+            <td>{{ task.id }}</td>
+            <td><a [routerLink]="['/task/', task.id]">{{ task.title }}</a></td>
+            <!-- <td>{{ task.description }}</td> -->
+            <td>{{ task.endDateTime | date: "hh:mm dd.MM.y" }}</td>
+            <td><span *ngIf="task.completed; else elseBlock">Выполнено</span>
+                <ng-template #elseBlock><span>Не выполнено</span></ng-template>
+            </td>
+            <td><a [routerLink]="['/task/edit/', task.id]" class="btn btn-primary btn-sm float-right">Edit</a></td>
+            <td><a [routerLink]="" (click)="delete(task.id)" class="btn btn-danger btn-sm float-right">Delete</a></td>
+        </tr>
+    </tbody>
+</table>

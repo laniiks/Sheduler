@@ -1,0 +1,13 @@
+<div class="container">
+    <ng-container *ngIf="(task$ | async) as task; else loading">
+        <h1>{{ task.title }}</h1>
+        <p>Описание:</p>
+        <p>{{ task.description }}</p>
+        <p>Срок: {{ task.endDateTime }}</p>
+        <div>
+            Выполнение: <span *ngIf="task.completed; else elseBlock">Выполнено</span>
+            <ng-template #elseBlock><span>Не выполнено</span></ng-template>
+        </div>
+    </ng-container>
+    <ng-template #loading>Loading…</ng-template>
+</div>
